@@ -1,0 +1,22 @@
+info:
+  contact: {}
+  description: This is a sample Server pets
+  title: Gin Project API
+  version: 0.0.1
+paths:
+  /api/v1/hello:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      summary: 健康检查
+      tags:
+      - test
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
