@@ -3,6 +3,7 @@ system:
   db-type: "mysql"
   global-prefix: "/api/v1"
   use-redis: false # 使用redis
+  use-cron: true
 
 jwt:
   secret: "gin_template"

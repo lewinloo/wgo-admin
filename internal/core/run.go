@@ -22,6 +22,11 @@ func RunServer() {
 		pkg.Redis()
 	}
 
+	// 根据配置文件是否使用定时任务
+	if global.CONFIG.System.UseCron {
+		global.CRON = pkg.NewCron()
+	}
+
 	Router := router.New()
 
 	address := fmt.Sprintf(":%d", global.CONFIG.System.Port)
