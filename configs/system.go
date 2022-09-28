@@ -6,4 +6,5 @@ type System struct {
 	GlobalPrefix string `mapstructure:"global-prefix" json:"global-prefix" yaml:"global-prefix"` // 全局前缀
 	UseRedis     bool   `mapstructure:"use-redis" json:"use-redis" yaml:"use-redis"`             // 是否使用redis
 	UseCron      bool   `mapstructure:"use-cron" json:"use-cron" yaml:"use-cron"`                // 是否使用cron
+	UseCasbin    bool   `mapstructure:"use-casbin" json:"use-casbin" yaml:"use-casbin"`          // 是否使用casbin
 }

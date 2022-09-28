@@ -1,7 +1,7 @@
 package helloHandlers
 
 import (
-	"net/http"
+	"gin_template/internal/common"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +12,5 @@ import (
 // @Produce application/json
 // @Router /api/v1/hello [get]
 func Hello(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "hello world",
-	})
+	common.ResponseOk(c, nil)
 }

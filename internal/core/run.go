@@ -27,6 +27,11 @@ func RunServer() {
 		global.CRON = pkg.NewCron()
 	}
 
+	// 根据配置文件是否使用casbin
+	if global.CONFIG.System.UseCasbin {
+		pkg.InitCasbinEnforcer()
+	}
+
 	Router := router.New()
 
 	address := fmt.Sprintf(":%d", global.CONFIG.System.Port)

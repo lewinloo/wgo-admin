@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"gin_template/internal/global"
+	"gin_template/internal/models"
 	"os"
 
 	"go.uber.org/zap"
@@ -19,7 +20,10 @@ func NewDB() *gorm.DB {
 
 // 注册数据库表
 func RegisterTables(db *gorm.DB) {
-	err := db.AutoMigrate()
+	err := db.AutoMigrate(
+		models.User{},
+		models.Role{},
+	)
 
 	if err != nil {
 		global.LOG.Error("注册数据库表失败", zap.Error(err))
