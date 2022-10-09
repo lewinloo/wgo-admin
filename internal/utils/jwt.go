@@ -15,16 +15,18 @@ type Claims struct {
 	Id       uint     `json:"id"`
 	Username string   `json:"username"`
 	RoleIds  []string `json:"roleIds"`
+	IsAdmin  bool     `json:"isAdmin"`
 	jwt.StandardClaims
 }
 
 // 生成token
-func GenerateToken(id uint, username string, roleIds []string) (string, error) {
+func GenerateToken(id uint, username string, roleIds []string, isAdmin bool) (string, error) {
 	expireTime := time.Now().Add(time.Duration(global.CONFIG.Jwt.ExpireTime) * time.Hour)
 	claims := Claims{
 		Id:       id,
 		Username: username,
 		RoleIds:  roleIds,
+		IsAdmin:  isAdmin,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    global.CONFIG.Jwt.Issuer,

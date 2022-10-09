@@ -7,3 +7,6 @@ default:
 
 linux:
 	GOOS=linux GOARCH=amd64 go build -o resume main.go
+
+swag:
+	sh ./scripts/swagger.sh

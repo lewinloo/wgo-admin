@@ -8,10 +8,10 @@ func New[T any](model T) *Repository[T] {
 
 type IBaseReposity[T any] interface {
 	Create(model *T) (bool, error)
-	FindById(id int) (T, error)
-	FindAll() (list []T, err error)
-	Find(condition map[string]any) (list []T, err error)
-	FindOne(condition map[string]any) (model T, err error)
+	FindById(id int) (*T, error)
+	FindAll() (list []*T, err error)
+	Find(condition map[string]any) (list []*T, err error)
+	FindOne(condition map[string]any) (model *T, err error)
 	DeleteById(id int) (bool, error)
 	DeleteByIds(ids []int) (bool, error)
 }
@@ -27,23 +27,23 @@ func (r *Repository[T]) Create(model *T) (bool, error) {
 	}
 }
 
-func (r *Repository[T]) Find(condition map[string]any) (list []T, err error) {
+func (r *Repository[T]) Find(condition ...any) (list []*T, err error) {
 	return list, global.DB.Find(&list, condition).Error
 }
 
-func (r *Repository[T]) FindOne(condition map[string]any) (model T, err error) {
-	return model, global.DB.First(&model).Where(condition).Error
+func (r *Repository[T]) FindOne(conds ...any) (model *T, err error) {
+	return model, global.DB.First(&model, conds...).Error
 }
 
-func (r *Repository[T]) FindById(id int) (T, error) {
-	var model T
+func (r *Repository[T]) FindById(id int) (*T, error) {
+	var model *T
 	if err := global.DB.First(&model, "WHERE id = ?", id).Error; err != nil {
 		return model, err
 	}
 	return model, nil
 }
 
-func (r *Repository[T]) FindAll() (list []T, err error) {
+func (r *Repository[T]) FindAll() (list []*T, err error) {
 	return list, global.DB.Find(&list).Error
 }
 

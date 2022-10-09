@@ -4,6 +4,7 @@ import (
 	"gin_template/internal/common"
 	"gin_template/internal/global"
 	"gin_template/internal/utils"
+	"net/http"
 	"strings"
 	"sync"
 
@@ -23,7 +24,12 @@ func CheckPermission() gin.HandlerFunc {
 
 		isPass := check(subs, obj, act)
 		if !isPass {
-			common.ResponseFail(c, 403, "没有权限")
+			c.JSON(http.StatusForbidden, common.Result{
+				Success: false,
+				Message: "没有权限",
+				Data:    nil,
+				Code:    403,
+			})
 			c.Abort()
 			return
 		}

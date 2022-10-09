@@ -3,6 +3,7 @@ package router
 import (
 	"gin_template/internal/global"
 	helloHandlers "gin_template/internal/handlers/hello"
+	userHandlers "gin_template/internal/handlers/user"
 
 	_ "gin_template/docs"
 
@@ -23,6 +24,7 @@ func New() *gin.Engine {
 	publicRoutes := apiRouter.Group("")
 	{
 		publicRoutes.GET("/hello", helloHandlers.Hello)
+		publicRoutes.POST("/user/register", userHandlers.Register)
 	}
 
 	// privateRoutes := apiRouter.Group("")

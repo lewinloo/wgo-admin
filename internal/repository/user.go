@@ -22,6 +22,3 @@ func NewUser() *UserRepository {
 type UserRepository struct {
 	Repository[models.User]
 }
-
-func (r *UserRepository) AddTest() {
-}

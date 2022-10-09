@@ -3,6 +3,7 @@ module gin_template
 go 1.18
 
 require (
+	github.com/casbin/casbin/v2 v2.55.1
 	github.com/robfig/cron/v3 v3.0.0
 	github.com/spf13/viper v1.12.0
 	github.com/swaggo/swag v1.8.1
@@ -13,7 +14,6 @@ require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
-	github.com/casbin/casbin/v2 v2.55.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/denisenkom/go-mssqldb v0.12.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
@@ -80,7 +80,6 @@ require (
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
-	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/afero v1.8.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect

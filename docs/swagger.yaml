@@ -1,3 +1,39 @@
+definitions:
+  common.Result:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  dto.RegisterParams:
+    properties:
+      email:
+        type: string
+      mobile:
+        type: string
+      password:
+        maxLength: 32
+        minLength: 6
+        type: string
+      roleIds:
+        items:
+          type: string
+        type: array
+      username:
+        maxLength: 16
+        minLength: 4
+        type: string
+    required:
+    - email
+    - mobile
+    - password
+    - roleIds
+    - username
+    type: object
 info:
   contact: {}
   description: This is a sample Server pets
@@ -14,6 +50,27 @@ paths:
       summary: 健康检查
       tags:
       - test
+  /api/v1/user/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 注册参数
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      summary: 用户注册接口
+      tags:
+      - 用户模块
 securityDefinitions:
   ApiKeyAuth:
     in: header
