@@ -27,3 +27,23 @@ func Register(c *gin.Context) {
 		}
 	}
 }
+
+// @Tags 用户模块
+// @Summary 用户登录接口
+// @accept application/json
+// @Produce application/json
+// @Param params body dto.LoginParams true "登录参数"
+// @Success 200 {object} common.Result "成功返回体"
+// @Router /api/v1/user/login [post]
+func Login(c *gin.Context) {
+	var params dto.LoginParams
+	if err := c.ShouldBindJSON(&params); err != nil {
+		common.ResponseFail(c, 100001, "参数格式错误")
+	} else {
+		if token, err := userService.Login(params); err != nil {
+			common.ResponseFail(c, 100020, err.Error())
+		} else {
+			common.ResponseOk(c, gin.H{"token": token})
+		}
+	}
+}

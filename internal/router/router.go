@@ -25,6 +25,7 @@ func New() *gin.Engine {
 	{
 		publicRoutes.GET("/hello", helloHandlers.Hello)
 		publicRoutes.POST("/user/register", userHandlers.Register)
+		publicRoutes.POST("/user/login", userHandlers.Login)
 	}
 
 	// privateRoutes := apiRouter.Group("")

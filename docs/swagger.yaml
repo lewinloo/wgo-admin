@@ -9,6 +9,16 @@ definitions:
       success:
         type: boolean
     type: object
+  dto.LoginParams:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   dto.RegisterParams:
     properties:
       email:
@@ -50,6 +60,27 @@ paths:
       summary: 健康检查
       tags:
       - test
+  /api/v1/user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录参数
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      summary: 用户登录接口
+      tags:
+      - 用户模块
   /api/v1/user/register:
     post:
       consumes:

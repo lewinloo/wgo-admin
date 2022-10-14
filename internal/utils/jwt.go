@@ -58,3 +58,11 @@ func GetUserRoleIds(c *gin.Context) []string {
 		return roleIds.([]string)
 	}
 }
+
+func GetUserIsAdmin(c *gin.Context) bool {
+	if isAdmin, exists := c.Get("isAdmin"); !exists {
+		return false
+	} else {
+		return isAdmin.(bool)
+	}
+}

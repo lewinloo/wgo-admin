@@ -7,3 +7,8 @@ type RegisterParams struct {
 	Password string   `json:"password" binding:"required,min=6,max=32"`
 	RoleIds  []string `json:"roleIds" binding:"required"`
 }
+
+type LoginParams struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}

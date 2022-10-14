@@ -6,13 +6,13 @@ import (
 )
 
 var (
-	User *UserRepository
-	once sync.Once
+	User     *UserRepository
+	onceUser sync.Once
 )
 
 // 单例模式
 func NewUser() *UserRepository {
-	once.Do(func() {
+	onceUser.Do(func() {
 		User = &UserRepository{}
 	})
 	return User

@@ -32,7 +32,8 @@ func CheckAuth() gin.HandlerFunc {
 			return
 		}
 
-		c.Set("uid", claims.Id)
+		c.Set("userId", claims.Id)
+		c.Set("isAdmin", claims.IsAdmin)
 		c.Set("roleIds", claims.RoleIds)
 		c.Next()
 	}

@@ -16,6 +16,12 @@ var checkLock sync.Mutex
 func CheckPermission() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		subs := utils.GetUserRoleIds(c)
+		isAdmin := utils.GetUserIsAdmin(c)
+
+		if isAdmin {
+			c.Next()
+			return
+		}
 
 		// 获得请求路径URL
 		obj := strings.TrimPrefix(c.FullPath(), "/"+global.CONFIG.System.GlobalPrefix)

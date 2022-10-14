@@ -16,7 +16,7 @@ jwt:
 mysql:
   path: "127.0.0.1"
   port: "3306"
-  config: ""
+  config: "charset=utf8mb4&parseTime=True&loc=Local"
   db-name: "go_zero_template"
   username: "root"
   password: "12345678"
