@@ -1,35 +1,15 @@
 package pkg
 
 import (
-	"gin_template/internal/global"
-	"gin_template/internal/models"
-	"os"
-
-	"go.uber.org/zap"
+	config "gin_template/config"
 	"gorm.io/gorm"
 )
 
-func NewDB() *gorm.DB {
-	switch global.CONFIG.System.DbType {
+func NewDB(config config.Application) *gorm.DB {
+	switch config.System.DbType {
 	case "mysql":
-		return GormMysql()
+		return GormMysql(config.Mysql)
 	default:
-		return GormMysql()
+		return GormMysql(config.Mysql)
 	}
-}
-
-// 注册数据库表
-func RegisterTables(db *gorm.DB) {
-	err := db.AutoMigrate(
-		models.User{},
-		models.Role{},
-		models.Menu{},
-	)
-
-	if err != nil {
-		global.LOG.Error("注册数据库表失败", zap.Error(err))
-		os.Exit(0)
-	}
-
-	global.LOG.Info("注册数据库表成功！！！")
 }

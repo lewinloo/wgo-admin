@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"gin_template/internal/global"
-	"gin_template/internal/utils"
+	"gin_template/internal/app/global"
+	"gin_template/internal/app/utils"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

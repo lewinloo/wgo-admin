@@ -1,3 +1,4 @@
+basePath: /api/v1
 definitions:
   common.Result:
     properties:
@@ -44,13 +45,14 @@ definitions:
     - roleIds
     - username
     type: object
+host: 127.0.0.1:3000
 info:
   contact: {}
   description: This is a sample Server pets
   title: Gin Project API
   version: 0.0.1
 paths:
-  /api/v1/hello:
+  /hello:
     get:
       consumes:
       - application/json
@@ -60,7 +62,7 @@ paths:
       summary: 健康检查
       tags:
       - test
-  /api/v1/user/login:
+  /user/login:
     post:
       consumes:
       - application/json
@@ -81,7 +83,7 @@ paths:
       summary: 用户登录接口
       tags:
       - 用户模块
-  /api/v1/user/register:
+  /user/register:
     post:
       consumes:
       - application/json
@@ -103,7 +105,7 @@ paths:
       tags:
       - 用户模块
 securityDefinitions:
-  ApiKeyAuth:
+  Bearer:
     in: header
     name: Authorization
     type: apiKey

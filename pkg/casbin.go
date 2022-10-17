@@ -1,32 +1,26 @@
 package pkg
 
 import (
-	"fmt"
-	"gin_template/internal/global"
+	"gorm.io/gorm"
+	"os"
 
 	"github.com/casbin/casbin/v2"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 )
 
 // 初始化casbin策略管理器
-func InitCasbinEnforcer() {
-	e, err := mysqlCasbin()
-	if err != nil {
-		global.LOG.Error(fmt.Sprintf("初始化Casbin失败：%v", err))
-		panic(fmt.Sprintf("初始化Casbin失败：%v", err))
-	}
-
-	global.CASBIN = e
-	global.LOG.Info("初始化Casbin完成!")
-
+func NewCasbinEnforcer(db *gorm.DB) (e *casbin.Enforcer, err error) {
+	e, err = mysqlCasbin(db)
+	return e, err
 }
 
-func mysqlCasbin() (*casbin.Enforcer, error) {
-	a, err := gormadapter.NewAdapterByDB(global.DB)
+func mysqlCasbin(db *gorm.DB) (*casbin.Enforcer, error) {
+	rootPath, _ := os.Getwd()
+	a, err := gormadapter.NewAdapterByDB(db)
 	if err != nil {
 		return nil, err
 	}
-	e, err := casbin.NewEnforcer("rbac_model.conf", a)
+	e, err := casbin.NewEnforcer(rootPath+"/resources/rbac_model.conf", a)
 	if err != nil {
 		return nil, err
 	}

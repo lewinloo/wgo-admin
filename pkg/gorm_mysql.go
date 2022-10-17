@@ -1,16 +1,13 @@
 package pkg
 
 import (
-	"gin_template/internal/global"
-	"gin_template/pkg/internal"
-
+	config "gin_template/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 // GormMysql 初始化Mysql数据库
-func GormMysql() *gorm.DB {
-	m := global.CONFIG.Mysql
+func GormMysql(m config.Mysql) *gorm.DB {
 	if m.Dbname == "" {
 		return nil
 	}
@@ -19,7 +16,9 @@ func GormMysql() *gorm.DB {
 		DefaultStringSize:         191,     // string 类型字段的默认长度
 		SkipInitializeWithVersion: false,   // 根据版本自动配置
 	}
-	if db, err := gorm.Open(mysql.New(mysqlConfig), internal.Gorm.Config()); err != nil {
+	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	}); err != nil {
 		return nil
 	} else {
 		sqlDB, _ := db.DB()

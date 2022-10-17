@@ -2,20 +2,21 @@ package pkg
 
 import (
 	"fmt"
-
-	"gin_template/internal/global"
-
+	"gin_template/internal/app/global"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+	"os"
 )
 
-func Viper() *viper.Viper {
+func Viper(filePath string) *viper.Viper {
+	rootPath, _ := os.Getwd()
 	v := viper.New()
-	v.SetConfigFile("config.yaml")
+	v.SetConfigFile(rootPath + filePath)
 	v.SetConfigType("yaml")
+	fmt.Println()
 	err := v.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		panic(any(fmt.Errorf("Fatal error config file: %s \n", err)))
 	}
 	v.WatchConfig()
 

@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    networks:
+      - app-network
+    links:
+      - mysql-server
+      - redis
+    depends_on:
+      - mysql-server
+      - redis
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - /Users/lewin/data/redis/data:/data
+      - /Users/lewin/data/redis/redis.conf:/etc/redis/redis.conf
+    command:
+      --requirepass 123456
+      --appendonly yes
+    restart: always
+    networks:
+      - app-network
+
+  mysql-server:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - /Users/lewin/data/mysql/data:/var/lib/mysql
+      - /Users/lewin/data/mysql/log:/var/log/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345678
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true
+
+# docker network create -d bridge app-network
+# rebuild: docker-compose up --build -d
+# build: docker-compose up -d

@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/hello": {
+        "/hello": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -31,7 +31,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/api/v1/user/login": {
+        "/user/login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -64,7 +64,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/register": {
+        "/user/register": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -165,7 +165,7 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "ApiKeyAuth": {
+        "Bearer": {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -176,8 +176,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "0.0.1",
-	Host:             "",
-	BasePath:         "",
+	Host:             "127.0.0.1:3000",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Gin Project API",
 	Description:      "This is a sample Server pets",

@@ -1,0 +1,43 @@
+system:
+  port: 3000
+  db-type: "mysql"
+  global-prefix: "/api/v1"
+  use-redis: false # 使用redis
+  use-cron: true
+  use-casbin: true
+
+jwt:
+  secret: "gin_template"
+  expire-time: 8
+  issuer: "demodemo"
+  subject: "userToken"
+
+# mysql config
+mysql:
+  path: "mysql-server"
+  port: "3306"
+  config: "charset=utf8mb4&parseTime=True&loc=Local"
+  db-name: "go_zero_template"
+  username: "root"
+  password: "12345678"
+  max-idle-conns: 10
+  max-open-conns: 100
+  log-mode: ""
+  log-zap: false
+
+# redis configuration
+redis:
+  db: 0
+  addr: "redis:6379"
+  password: "123456"
+
+# zap 日志
+zap:
+  level: "info"
+  format: "console"
+  prefix: "[gin_template]"
+  director: "log"
+  show-line: true
+  encode-level: "LowercaseColorLevelEncoder"
+  stacktrace-key: "stacktrace"
+  log-in-console: true
