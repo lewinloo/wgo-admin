@@ -12,10 +12,11 @@ mongo-data
 ./app
 
 # 忽略配置文件
-/resources/application.prod.yaml
+/resource/*.prod.yaml
+/resource/*.dev.yaml
 
 # 忽略任何测试文件
-*_test.go
+/test
 
 
 # 其他

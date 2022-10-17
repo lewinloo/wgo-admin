@@ -10,3 +10,6 @@ linux:
 
 swag:
 	sh ./scripts/swagger.sh
+
+tidy:
+	go mod tidy
