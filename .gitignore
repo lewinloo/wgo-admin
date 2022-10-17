@@ -9,10 +9,10 @@
 redis-data
 mongo-data
 /tmp
-resume
+./app
 
 # 忽略配置文件
-prod.yaml
+/resources/application.prod.yaml
 
 # 忽略任何测试文件
 *_test.go
@@ -20,7 +20,9 @@ prod.yaml
 
 # 其他
 .DS_Store
-/log/resume_log.out
 
 # 日志
 /log
+
+
+/temp
