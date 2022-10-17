@@ -20,7 +20,7 @@ func mysqlCasbin(db *gorm.DB) (*casbin.Enforcer, error) {
 	if err != nil {
 		return nil, err
 	}
-	e, err := casbin.NewEnforcer(rootPath+"/resources/rbac_model.conf", a)
+	e, err := casbin.NewEnforcer(rootPath+"/resource/rbac_model.conf", a)
 	if err != nil {
 		return nil, err
 	}

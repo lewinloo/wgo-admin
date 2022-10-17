@@ -7,4 +7,5 @@ type System struct {
 	UseRedis     bool   `mapstructure:"use-redis" json:"use-redis" yaml:"use-redis"`             // 是否使用redis
 	UseCron      bool   `mapstructure:"use-cron" json:"use-cron" yaml:"use-cron"`                // 是否使用cron
 	UseCasbin    bool   `mapstructure:"use-casbin" json:"use-casbin" yaml:"use-casbin"`          // 是否使用casbin
+	Mode         string `mapstructure:"mode" json:"mode" yaml:"mode"`                            // 系统模式
 }

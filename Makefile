@@ -1,5 +1,5 @@
 run:
-	go run ./cmd/app/main.go -f /resources/application.yaml
+	go run ./cmd/app/main.go -f /resource/application.yaml
 
 default:
 	go buind -o app ./cmd/app/main.go
@@ -13,3 +13,9 @@ swag:
 
 tidy:
 	go mod tidy
+
+docker-build:
+	docker-compose up -d
+
+docker-rebuild:
+	docker-compose up --build -d

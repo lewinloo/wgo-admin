@@ -20,8 +20,8 @@ RUN export GIN_MODE=release
 WORKDIR /server
 
 COPY --from=builder /work/app ./
-COPY --from=builder /work/resources ./resources
+COPY --from=builder /work/resource ./resource
 
 EXPOSE 3000
 
-CMD ["./app", "-f", "/resources/application.prod.yaml"]
+CMD ["./app", "-f", "/resource/application.prod.yaml"]

@@ -5,6 +5,7 @@ system:
   use-redis: false # 使用redis
   use-cron: true
   use-casbin: true
+  mode: "dev"
 
 jwt:
   secret: "gin_template"
