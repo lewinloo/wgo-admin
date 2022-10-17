@@ -19,11 +19,6 @@ var (
 func New() *gin.Engine {
 	Router := gin.Default()
 
-	// 设置生产模式
-	if global.CONFIG.System.Mode == "prod" {
-		gin.SetMode(gin.ReleaseMode)
-	}
-
 	// swagger 文档地址
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
