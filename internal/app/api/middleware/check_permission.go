@@ -24,7 +24,7 @@ func CheckPermission() gin.HandlerFunc {
 		}
 
 		// 获得请求路径URL
-		obj := strings.TrimPrefix(c.FullPath(), "/"+global.CONFIG.System.GlobalPrefix)
+		obj := strings.TrimPrefix(c.FullPath(), global.CONFIG.System.GlobalPrefix)
 		// 获取请求方式
 		act := c.Request.Method
 

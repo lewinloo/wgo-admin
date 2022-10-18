@@ -1,4 +1,4 @@
-package api
+package handler
 
 import "gin_template/internal/app/domain/service"
 

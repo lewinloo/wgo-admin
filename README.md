@@ -21,7 +21,10 @@
 ├── docs                            # swagger 自动生成文件
 ├── internal                        # 内部核心
 │   └── app                         # app 核心
-│       ├── api                     # 控制层
+│       ├── api                     # api 层
+│       │   ├── handler             # handler
+│       │   ├── middleware          # 中间件
+│       │   └── router.go           # 路由控制
 │       ├── common                  # 公用模块
 │       ├── core                    # 核心模块
 │       ├── domain                  # domain 层
@@ -29,8 +32,6 @@
 │       │   ├── repository          # repository 层
 │       │   └── service             # service 层
 │       ├── global                  # 全局变量
-│       ├── middleware              # 中间件
-│       ├── router                  # 路由配置
 │       └── utils                   # 工具类
 ├── pkg                             # 第三方包
 │   ├── casbin.go                   # casbin
