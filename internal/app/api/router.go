@@ -30,6 +30,7 @@ func New() *gin.Engine {
 
 		// 用户模块
 		publicRoutes.POST("/user/login", injector.UserHandler.Login)
+		publicRoutes.POST("/user/list", injector.UserHandler.List)
 	}
 
 	// 鉴权认证路由

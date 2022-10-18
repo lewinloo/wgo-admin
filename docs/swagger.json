@@ -24,6 +24,39 @@
                 "responses": {}
             }
         },
+        "/user/list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户模块"
+                ],
+                "summary": "用户列表",
+                "parameters": [
+                    {
+                        "description": "登录参数",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.QueryUserListParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功返回体",
+                        "schema": {
+                            "$ref": "#/definitions/common.Result"
+                        }
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "consumes": [
@@ -118,6 +151,31 @@
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.QueryUserListParams": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "description": "当前页",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "页的大小",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "1：正常 2: 禁用",
+                    "type": "integer"
+                },
+                "username": {
+                    "description": "用户名",
                     "type": "string"
                 }
             }

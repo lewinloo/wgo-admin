@@ -20,6 +20,24 @@ definitions:
     - password
     - username
     type: object
+  dto.QueryUserListParams:
+    properties:
+      current:
+        description: 当前页
+        type: integer
+      email:
+        description: 邮箱
+        type: string
+      size:
+        description: 页的大小
+        type: integer
+      status:
+        description: '1：正常 2: 禁用'
+        type: integer
+      username:
+        description: 用户名
+        type: string
+    type: object
   dto.RegisterParams:
     properties:
       email:
@@ -62,6 +80,27 @@ paths:
       summary: 健康检查
       tags:
       - test
+  /user/list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录参数
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/dto.QueryUserListParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      summary: 用户列表
+      tags:
+      - 用户模块
   /user/login:
     post:
       consumes:

@@ -53,3 +53,23 @@ func (h UserHandler) Login(c *gin.Context) {
 		}
 	}
 }
+
+// @Tags 用户模块
+// @Summary 用户列表
+// @accept application/json
+// @Produce application/json
+// @Param params body dto.QueryUserListParams true "登录参数"
+// @Success 200 {object} common.Result "成功返回体"
+// @Router /user/list [post]
+func (h UserHandler) List(c *gin.Context) {
+	var params dto.QueryUserListParams
+	if err := c.ShouldBindJSON(&params); err != nil {
+		common.ResponseFail(c, 100001, "参数格式错误")
+	} else {
+		if res, err := h.UserSvc.GetList(params); err != nil {
+			common.ResponseFail(c, 400, err.Error())
+		} else {
+			common.ResponseOk(c, res)
+		}
+	}
+}

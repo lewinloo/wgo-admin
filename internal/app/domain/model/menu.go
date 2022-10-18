@@ -17,7 +17,7 @@ type Menu struct {
 	Hidden            uint    `gorm:"default:0;comment:'菜单在侧边栏隐藏'" json:"hidden"`
 	KeepAlive         uint    `gorm:"default:1;comment:'菜单是否被 <keep-alive> '" json:"keepAlive"`
 	Breadcrumb        uint    `gorm:"default:1;comment:'面包屑可见性(可见/隐藏, 默认可见)'" json:"breadcrumb"`
-	ParentId          *uint   `gorm:"default:0;comment:'父菜单编号(编号为0时表示根菜单)'" json:"parentId"`
+	ParentId          uint    `gorm:"default:0;comment:'父菜单编号(编号为0时表示根菜单)'" json:"parentId"`
 	Children          []*Menu `gorm:"-" json:"children"`                  // 子菜单集合
 	Roles             []*Role `gorm:"many2many:role_menus;" json:"roles"` // 角色菜单多对多关系
 }

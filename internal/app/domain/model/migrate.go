@@ -13,6 +13,7 @@ func RegisterTables(db *gorm.DB) {
 		User{},
 		Role{},
 		Menu{},
+		Resource{},
 	)
 
 	if err != nil {

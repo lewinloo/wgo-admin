@@ -12,3 +12,10 @@ type LoginParams struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+
+type QueryUserListParams struct {
+	PageParams
+	Username string `json:"username"` // 用户名
+	Email    string `json:"email"`    // 邮箱
+	Status   uint   `json:"status"`   // 1：正常 2: 禁用
+}
