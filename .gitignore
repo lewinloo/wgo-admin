@@ -12,8 +12,8 @@ mongo-data
 ./app
 
 # 忽略配置文件
-/resource/*.prod.yaml
-/resource/*.dev.yaml
+/resource/*.prod.yml
+/resource/*.dev.yml
 
 # 忽略任何测试文件
 /test

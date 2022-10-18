@@ -44,7 +44,7 @@
 │   ├── viper.go                    # viper
 │   └── zap.go                      # zap 日志
 ├── resource                        # 资源目录
-│   ├── application.yaml            # 项目启动配置文件
+│   ├── app.yml                     # 项目启动配置文件
 │   └── rbac_model.conf             # rbac 匹配规则
 ├── scripts                         # 脚本
 │   └── swagger.sh                  # 自动生成 swagger shell 脚本
