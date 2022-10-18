@@ -24,4 +24,4 @@ COPY --from=builder /work/resource ./resource
 
 EXPOSE 3000
 
-CMD ["./app", "-f", "/resource/application.prod.yaml"]
+CMD ["./app", "-f", "/resource/app.prod.yml"]

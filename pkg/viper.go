@@ -12,7 +12,7 @@ func Viper(filePath string) *viper.Viper {
 	rootPath, _ := os.Getwd()
 	v := viper.New()
 	v.SetConfigFile(rootPath + filePath)
-	v.SetConfigType("yaml")
+	v.SetConfigType("yml")
 	fmt.Println()
 	err := v.ReadInConfig()
 	if err != nil {

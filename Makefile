@@ -1,5 +1,5 @@
 run:
-	go run ./cmd/app/main.go -f /resource/application.yaml
+	go run ./cmd/app/main.go -f /resource/app.yml
 
 default:
 	go buind -o app ./cmd/app/main.go
