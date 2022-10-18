@@ -3,13 +3,12 @@ package handler
 import (
 	"gin_template/internal/app/common"
 	"github.com/gin-gonic/gin"
+	"github.com/google/wire"
 )
 
-func NewHello() HelloApi {
-	return HelloApi{}
-}
+var HelloSet = wire.NewSet(wire.Struct(new(HelloHandler), "*"))
 
-type HelloApi struct {
+type HelloHandler struct {
 }
 
 // @Tags test
@@ -17,6 +16,6 @@ type HelloApi struct {
 // @accept application/json
 // @Produce application/json
 // @Router /hello [get]
-func (h HelloApi) Hello(c *gin.Context) {
+func (h HelloHandler) Hello(c *gin.Context) {
 	common.ResponseOk(c, nil)
 }

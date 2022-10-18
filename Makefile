@@ -1,5 +1,5 @@
 run:
-	go run ./cmd/app/main.go -f /resource/app.yml
+	wire gen ./internal/app && go run ./cmd/app/main.go -f /resource/app.yml
 
 default:
 	go buind -o app ./cmd/app/main.go

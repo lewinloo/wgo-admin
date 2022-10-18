@@ -3,11 +3,13 @@ package repository
 import (
 	"gin_template/internal/app/domain/model"
 	"gin_template/internal/app/global"
+	"github.com/google/wire"
 )
 
-func NewUser() UserRepository {
-	return UserRepository{}
-}
+var UserSet = wire.NewSet(
+	wire.Struct(new(UserRepository), "*"),
+	wire.Bind(new(IUserRepository), new(*UserRepository)),
+)
 
 type IUserRepository interface {
 	Create(model model.User) (bool, error)

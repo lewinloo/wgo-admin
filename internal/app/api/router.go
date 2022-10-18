@@ -2,7 +2,7 @@ package api
 
 import (
 	_ "gin_template/docs"
-	"gin_template/internal/app/api/handler"
+	"gin_template/internal/app"
 	"gin_template/internal/app/api/middleware"
 	"gin_template/internal/app/global"
 	"github.com/gin-gonic/gin"
@@ -10,14 +10,11 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// 初始化 handler
-var (
-	helloHandler = handler.NewHello()
-	userHandler  = handler.NewUser()
-)
-
 // 初始化总路由
 func New() *gin.Engine {
+	// 依赖注入 handler
+	injector, _, _ := app.BuildHandlerInjector()
+
 	Router := gin.New()
 	Router.Use(gin.Logger(), middleware.Recovery(), middleware.Cors())
 
@@ -29,10 +26,10 @@ func New() *gin.Engine {
 	// 公共路由
 	publicRoutes := apiRouter.Group("")
 	{
-		publicRoutes.GET("/hello", helloHandler.Hello)
+		publicRoutes.GET("/hello", injector.HelloHandler.Hello)
 
 		// 用户模块
-		publicRoutes.POST("/user/login", userHandler.Login)
+		publicRoutes.POST("/user/login", injector.UserHandler.Login)
 	}
 
 	// 鉴权认证路由
@@ -40,7 +37,11 @@ func New() *gin.Engine {
 	privateRoutes.Use(middleware.CheckAuth(), middleware.CheckPermission())
 	{
 		// 用户模块
-		privateRoutes.POST("/user/register", userHandler.Register)
+		gUser := privateRoutes.Group("user")
+		{
+			gUser.POST("register", injector.UserHandler.Register)
+
+		}
 	}
 
 	return Router

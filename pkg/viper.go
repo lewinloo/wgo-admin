@@ -13,7 +13,6 @@ func Viper(filePath string) *viper.Viper {
 	v := viper.New()
 	v.SetConfigFile(rootPath + filePath)
 	v.SetConfigType("yml")
-	fmt.Println()
 	err := v.ReadInConfig()
 	if err != nil {
 		panic(any(fmt.Errorf("Fatal error config file: %s \n", err)))

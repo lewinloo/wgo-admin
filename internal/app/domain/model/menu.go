@@ -1,9 +1,11 @@
 package model
 
-import "gin_template/internal/app/global"
+import (
+	"gin_template/internal/app/common"
+)
 
 type Menu struct {
-	global.BaseModel
+	common.BaseModel
 	Name              string  `gorm:"type:varchar(50);comment:'菜单名称(英文名, 可用于国际化)'" json:"name"`
 	Title             string  `gorm:"type:varchar(50);comment:'菜单标题(无法国际化时使用)'" json:"title"`
 	Icon              string  `gorm:"type:varchar(50);comment:'菜单图标'" json:"icon"`

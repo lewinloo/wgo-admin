@@ -1,13 +1,12 @@
 package model
 
 import (
-	"gin_template/internal/app/global"
-
+	"gin_template/internal/app/common"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	global.BaseModel
+	common.BaseModel
 	Username     string `gorm:"type:varchar(20);not null;unique" json:"username"`
 	Password     string `gorm:"type:text;not null" json:"password"`
 	Mobile       string `gorm:"type:varchar(11);not null;unique" json:"mobile"`

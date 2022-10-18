@@ -3,11 +3,13 @@ package repository
 import (
 	"gin_template/internal/app/domain/model"
 	"gin_template/internal/app/global"
+	"github.com/google/wire"
 )
 
-func NewRole() RoleRepository {
-	return RoleRepository{}
-}
+var RoleSet = wire.NewSet(
+	wire.Struct(new(RoleRepository), "*"),
+	wire.Bind(new(IRoleRepository), new(*RoleRepository)),
+)
 
 type IRoleRepository interface {
 	Create(model model.Role) (bool, error)
