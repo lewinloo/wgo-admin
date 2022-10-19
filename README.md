@@ -11,13 +11,6 @@
 ├── cmd                             # 命令文件目录
 │   └── app                         # app 模块
 │       └── main.go                 # 运行服务入口
-├── config                          # 配置文件
-│   ├── config.go                   # 配置文件入口
-│   ├── gorm_mysql.go               # mysql 配置
-│   ├── jwt.go                      # jwt 配置
-│   ├── redis.go                    # redis 配置
-│   ├── system.go                   # 系统配置
-│   └── zap.go                      # zap 配置
 ├── docs                            # swagger 自动生成文件
 ├── internal                        # 内部核心
 │   └── app                         # app 核心
@@ -26,13 +19,21 @@
 │       │   ├── middleware          # 中间件
 │       │   └── router.go           # 路由控制
 │       ├── common                  # 公用模块
+│       ├── config                  # 配置文件
+│       │   ├── config.go           # 配置文件入口
+│       │   ├── gorm_mysql.go       # mysql 配置
+│       │   ├── jwt.go              # jwt 配置
+│       │   ├── redis.go            # redis 配置
+│       │   ├── system.go           # 系统配置
+│       │   └── zap.go              # zap 配置
 │       ├── core                    # 核心模块
 │       ├── domain                  # domain 层
 │       │   ├── model               # model 层
 │       │   ├── repository          # repository 层
 │       │   └── service             # service 层
-│       ├── global                  # 全局变量
+│       ├── initialize              # 初始化库
 │       ├── utils                   # 工具类
+│       ├── app.go                  # app
 │       ├── wire.go                 # 依赖注入代码
 │       └── wire_gen.go             # 生成的依赖注入代码
 ├── pkg                             # 第三方包
