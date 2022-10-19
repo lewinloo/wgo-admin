@@ -1,49 +1,89 @@
 package api
 
 import (
-	_ "gin_template/docs"
-	"gin_template/internal/app"
+	"gin_template/internal/app/api/handler"
 	"gin_template/internal/app/api/middleware"
-	"gin_template/internal/app/global"
+	"gin_template/internal/app/config"
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/google/wire"
 )
 
-// 初始化总路由
-func New() *gin.Engine {
-	// 依赖注入 handler
-	injector, _, _ := app.BuildHandlerInjector()
+var RouterSet = wire.NewSet(wire.Struct(new(Router), "*"), wire.Bind(new(IRouter), new(*Router)))
 
-	Router := gin.New()
-	Router.Use(gin.Logger(), middleware.Recovery(), middleware.Cors())
+type IRouter interface {
+	Register(app *gin.Engine) error
+}
 
-	// swagger 文档地址
-	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+type Router struct {
+	Casbin       *casbin.Enforcer
+	HelloHandler *handler.HelloHandler
+	UserHandler  *handler.UserHandler
+}
 
-	apiRouter := Router.Group(global.CONFIG.System.GlobalPrefix)
+func (r *Router) Register(app *gin.Engine) error {
+	r.RegisterApi(app)
+	return nil
+}
 
-	// 公共路由
-	publicRoutes := apiRouter.Group("")
+func (r *Router) RegisterApi(engine *gin.Engine) {
+	gBase := engine.Group(config.C.System.GlobalPrefix)
+
+	gPublic := gBase.Group("")
 	{
-		publicRoutes.GET("/hello", injector.HelloHandler.Hello)
+		gPublic.GET("/hello", r.HelloHandler.Hello)
 
 		// 用户模块
-		publicRoutes.POST("/user/login", injector.UserHandler.Login)
-		publicRoutes.POST("/user/list", injector.UserHandler.List)
+		gPublic.POST("/user/login", r.UserHandler.Login)
+		gPublic.POST("/user/list", r.UserHandler.List)
 	}
 
-	// 鉴权认证路由
-	privateRoutes := apiRouter.Group("")
-	privateRoutes.Use(middleware.CheckAuth(), middleware.CheckPermission())
+	gPrivate := gBase.Group("")
+	gPrivate.Use(middleware.CheckAuth(), middleware.CheckPermission(r.Casbin))
 	{
 		// 用户模块
-		gUser := privateRoutes.Group("user")
+		gUser := gPrivate.Group("user")
 		{
-			gUser.POST("register", injector.UserHandler.Register)
+			gUser.POST("register", r.UserHandler.Register)
 
 		}
 	}
-
-	return Router
 }
+
+// 初始化总路由
+//func New() *gin.Engine {
+//	// 依赖注入 handler
+//	injector, _, _ := app.BuildHandlerInjector()
+//
+//	Router := gin.New()
+//	Router.Use(gin.Logger(), middleware.Recovery(), middleware.Cors())
+//
+//	// swagger 文档地址
+//	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+//
+//	apiRouter := Router.Group(global.CONFIG.System.GlobalPrefix)
+//
+//	// 公共路由
+//	publicRoutes := apiRouter.Group("")
+//	{
+//		publicRoutes.GET("/hello", injector.HelloHandler.Hello)
+//
+//		// 用户模块
+//		publicRoutes.POST("/user/login", injector.UserHandler.Login)
+//		publicRoutes.POST("/user/list", injector.UserHandler.List)
+//	}
+//
+//	// 鉴权认证路由
+//	privateRoutes := apiRouter.Group("")
+//	privateRoutes.Use(middleware.CheckAuth(), middleware.CheckPermission())
+//	{
+//		// 用户模块
+//		gUser := privateRoutes.Group("user")
+//		{
+//			gUser.POST("register", injector.UserHandler.Register)
+//
+//		}
+//	}
+//
+//	return Router
+//}

@@ -1,7 +1,7 @@
 package pkg
 
 import (
-	config "gin_template/config"
+	"gin_template/internal/app/config"
 	"github.com/go-redis/redis/v8"
 )
 

@@ -2,11 +2,7 @@ package main
 
 import (
 	"flag"
-	"gin_template/internal/app/core"
-	"gin_template/internal/app/domain/model"
-	"gin_template/internal/app/global"
-	"gin_template/pkg"
-	"go.uber.org/zap"
+	"gin_template/internal/app"
 )
 
 var (
@@ -26,17 +22,5 @@ func main() {
 	flag.StringVar(&configFilePath, "f", "配置文件路径", "")
 	flag.Parse()
 
-	global.VP = pkg.Viper(configFilePath)
-	global.LOG = pkg.Zap()
-	zap.ReplaceGlobals(global.LOG)
-	// 初始化数据库
-	global.DB = pkg.NewDB(global.CONFIG)
-	if global.DB != nil {
-		// 初始化数据库表
-		model.RegisterTables(global.DB)
-		db, _ := global.DB.DB()
-		defer db.Close()
-	}
-
-	core.RunServer()
+	app.LoadResource(configFilePath).Run()
 }

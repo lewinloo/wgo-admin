@@ -4,25 +4,33 @@
 package app
 
 import (
+	"gin_template/internal/app/api"
 	"gin_template/internal/app/api/handler"
 	"gin_template/internal/app/domain/repository"
 	"gin_template/internal/app/domain/service"
+	"gin_template/internal/app/initialize"
+	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 )
 
-var HandlerInjectorSet = wire.NewSet(wire.Struct(new(HandlerInjector), "*"))
+var InjectorSet = wire.NewSet(wire.Struct(new(Injector), "*"))
 
-type HandlerInjector struct {
-	HelloHandler *handler.HelloHandler
-	UserHandler  *handler.UserHandler
+type Injector struct {
+	Engine *gin.Engine
 }
 
-func BuildHandlerInjector() (*HandlerInjector, func(), error) {
+func BuildInjector() (*Injector, func(), error) {
 	wire.Build(
+		initialize.GormDB,
+		initialize.GinEngine,
+		initialize.Casbin,
+		initialize.Redis,
+		initialize.Log,
 		repository.ProvideSet,
 		service.ProvideSet,
 		handler.ProvideSet,
-		HandlerInjectorSet)
-
-	return new(HandlerInjector), nil, nil
+		api.RouterSet,
+		InjectorSet,
+	)
+	return new(Injector), nil, nil
 }

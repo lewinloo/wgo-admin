@@ -1,9 +1,8 @@
 package utils
 
 import (
+	"gin_template/internal/app/config"
 	"os"
-
-	"gin_template/internal/app/global"
 
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap/zapcore"
@@ -18,7 +17,7 @@ func GetWriteSyncer(file string) zapcore.WriteSyncer {
 		Compress:   true, // 是否压缩/归档旧文件
 	}
 
-	if global.CONFIG.Zap.LogInConsole {
+	if config.C.Zap.LogInConsole {
 		return zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), zapcore.AddSync(lumberJackLogger))
 	}
 	return zapcore.AddSync(lumberJackLogger)

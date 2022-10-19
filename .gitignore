@@ -24,6 +24,6 @@ mongo-data
 
 # 日志
 /log
-
+*.log
 
 /temp

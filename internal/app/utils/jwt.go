@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"gin_template/internal/app/global"
+	"gin_template/internal/app/config"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -9,7 +9,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-var JwtSecret = []byte(global.CONFIG.Jwt.Secret)
+var JwtSecret = []byte(config.C.Jwt.Secret)
 
 type Claims struct {
 	Id       uint     `json:"id"`
@@ -21,7 +21,7 @@ type Claims struct {
 
 // 生成token
 func GenerateToken(id uint, username string, roleIds []string, isAdmin bool) (string, error) {
-	expireTime := time.Now().Add(time.Duration(global.CONFIG.Jwt.ExpireTime) * time.Hour)
+	expireTime := time.Now().Add(time.Duration(config.C.Jwt.ExpireTime) * time.Hour)
 	claims := Claims{
 		Id:       id,
 		Username: username,
@@ -29,8 +29,8 @@ func GenerateToken(id uint, username string, roleIds []string, isAdmin bool) (st
 		IsAdmin:  isAdmin,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
-			Issuer:    global.CONFIG.Jwt.Issuer,
-			Subject:   global.CONFIG.Jwt.Subject,
+			Issuer:    config.C.Jwt.Issuer,
+			Subject:   config.C.Jwt.Subject,
 		},
 	}
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

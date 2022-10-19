@@ -7,18 +7,50 @@
 package app
 
 import (
+	"gin_template/internal/app/api"
 	"gin_template/internal/app/api/handler"
 	"gin_template/internal/app/domain/repository"
 	"gin_template/internal/app/domain/service"
+	"gin_template/internal/app/initialize"
+	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 )
 
 // Injectors from wire.go:
 
-func BuildHandlerInjector() (*HandlerInjector, func(), error) {
-	helloHandler := &handler.HelloHandler{}
-	userRepository := &repository.UserRepository{}
-	roleRepository := &repository.RoleRepository{}
+func BuildInjector() (*Injector, func(), error) {
+	db, cleanup, err := initialize.GormDB()
+	if err != nil {
+		return nil, nil, err
+	}
+	enforcer, cleanup2, err := initialize.Casbin(db)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	client, cleanup3, err := initialize.Redis()
+	if err != nil {
+		cleanup2()
+		cleanup()
+		return nil, nil, err
+	}
+	logger, cleanup4, err := initialize.Log()
+	if err != nil {
+		cleanup3()
+		cleanup2()
+		cleanup()
+		return nil, nil, err
+	}
+	helloHandler := &handler.HelloHandler{
+		Redis: client,
+		Log:   logger,
+	}
+	userRepository := &repository.UserRepository{
+		DB: db,
+	}
+	roleRepository := &repository.RoleRepository{
+		DB: db,
+	}
 	userService := &service.UserService{
 		UserRepo: userRepository,
 		RoleRepo: roleRepository,
@@ -26,19 +58,27 @@ func BuildHandlerInjector() (*HandlerInjector, func(), error) {
 	userHandler := &handler.UserHandler{
 		UserSvc: userService,
 	}
-	handlerInjector := &HandlerInjector{
+	router := &api.Router{
+		Casbin:       enforcer,
 		HelloHandler: helloHandler,
 		UserHandler:  userHandler,
 	}
-	return handlerInjector, func() {
+	engine := initialize.GinEngine(router)
+	injector := &Injector{
+		Engine: engine,
+	}
+	return injector, func() {
+		cleanup4()
+		cleanup3()
+		cleanup2()
+		cleanup()
 	}, nil
 }
 
 // wire.go:
 
-var HandlerInjectorSet = wire.NewSet(wire.Struct(new(HandlerInjector), "*"))
+var InjectorSet = wire.NewSet(wire.Struct(new(Injector), "*"))
 
-type HandlerInjector struct {
-	HelloHandler *handler.HelloHandler
-	UserHandler  *handler.UserHandler
+type Injector struct {
+	Engine *gin.Engine
 }

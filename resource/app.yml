@@ -2,9 +2,6 @@ system:
   port: 3000
   db-type: "mysql"
   global-prefix: "/api/v1"
-  use-redis: false # 使用redis
-  use-cron: true
-  use-casbin: true
   mode: "dev"
 
 jwt:
