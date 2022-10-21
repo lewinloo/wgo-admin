@@ -19,6 +19,8 @@ type Router struct {
 	Casbin       *casbin.Enforcer
 	HelloHandler *handler.HelloHandler
 	UserHandler  *handler.UserHandler
+	MenuHandler  *handler.MenuHandler
+	RoleHandler  *handler.RoleHandler
 }
 
 func (r *Router) Register(app *gin.Engine) error {
@@ -35,7 +37,6 @@ func (r *Router) RegisterApi(engine *gin.Engine) {
 
 		// 用户模块
 		gPublic.POST("/user/login", r.UserHandler.Login)
-		gPublic.POST("/user/list", r.UserHandler.List)
 	}
 
 	gPrivate := gBase.Group("")
@@ -45,45 +46,26 @@ func (r *Router) RegisterApi(engine *gin.Engine) {
 		gUser := gPrivate.Group("user")
 		{
 			gUser.POST("register", r.UserHandler.Register)
+			gUser.DELETE("delete", r.UserHandler.Delete)
+			gUser.POST("list", r.UserHandler.List)
 
 		}
+
+		// 菜单模块
+		gMenu := gPrivate.Group("menu")
+		{
+			gMenu.POST("", r.MenuHandler.Create)
+			gMenu.GET("tree", r.MenuHandler.FindMenuTree)
+			gMenu.DELETE(":id", r.MenuHandler.DeleteById)
+		}
+
+		// 角色模块
+		gRole := gPrivate.Group("role")
+		{
+			gRole.POST("", r.RoleHandler.Create)
+			gRole.POST("list", r.RoleHandler.FindList)
+			gRole.DELETE(":id", r.RoleHandler.DeleteById)
+		}
+
 	}
 }
-
-// 初始化总路由
-//func New() *gin.Engine {
-//	// 依赖注入 handler
-//	injector, _, _ := app.BuildHandlerInjector()
-//
-//	Router := gin.New()
-//	Router.Use(gin.Logger(), middleware.Recovery(), middleware.Cors())
-//
-//	// swagger 文档地址
-//	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-//
-//	apiRouter := Router.Group(global.CONFIG.System.GlobalPrefix)
-//
-//	// 公共路由
-//	publicRoutes := apiRouter.Group("")
-//	{
-//		publicRoutes.GET("/hello", injector.HelloHandler.Hello)
-//
-//		// 用户模块
-//		publicRoutes.POST("/user/login", injector.UserHandler.Login)
-//		publicRoutes.POST("/user/list", injector.UserHandler.List)
-//	}
-//
-//	// 鉴权认证路由
-//	privateRoutes := apiRouter.Group("")
-//	privateRoutes.Use(middleware.CheckAuth(), middleware.CheckPermission())
-//	{
-//		// 用户模块
-//		gUser := privateRoutes.Group("user")
-//		{
-//			gUser.POST("register", injector.UserHandler.Register)
-//
-//		}
-//	}
-//
-//	return Router
-//}

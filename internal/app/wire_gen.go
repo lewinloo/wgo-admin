@@ -54,14 +54,36 @@ func BuildInjector() (*Injector, func(), error) {
 	userService := &service.UserService{
 		UserRepo: userRepository,
 		RoleRepo: roleRepository,
+		Log:      logger,
 	}
 	userHandler := &handler.UserHandler{
 		UserSvc: userService,
+	}
+	menuRepository := &repository.MenuRepository{
+		DB: db,
+	}
+	menuService := &service.MenuService{
+		MenuRepo: menuRepository,
+		RoleRepo: roleRepository,
+		Log:      logger,
+	}
+	menuHandler := &handler.MenuHandler{
+		MenuSvc: menuService,
+	}
+	roleService := &service.RoleService{
+		MenuRepo: menuRepository,
+		RoleRepo: roleRepository,
+		Log:      logger,
+	}
+	roleHandler := &handler.RoleHandler{
+		RoleSvc: roleService,
 	}
 	router := &api.Router{
 		Casbin:       enforcer,
 		HelloHandler: helloHandler,
 		UserHandler:  userHandler,
+		MenuHandler:  menuHandler,
+		RoleHandler:  roleHandler,
 	}
 	engine := initialize.GinEngine(router)
 	injector := &Injector{

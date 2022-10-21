@@ -16,6 +16,7 @@ type UserHandler struct {
 
 // @Tags 用户模块
 // @Summary 用户注册接口
+// @Security Bearer
 // @accept application/json
 // @Produce application/json
 // @Param params body dto.RegisterParams true "注册参数"
@@ -56,6 +57,7 @@ func (h UserHandler) Login(c *gin.Context) {
 
 // @Tags 用户模块
 // @Summary 用户列表
+// @Security Bearer
 // @accept application/json
 // @Produce application/json
 // @Param params body dto.QueryUserListParams true "登录参数"
@@ -70,6 +72,27 @@ func (h UserHandler) List(c *gin.Context) {
 			common.ResponseFail(c, 400, err.Error())
 		} else {
 			common.ResponseOk(c, res)
+		}
+	}
+}
+
+// @Tags 用户模块
+// @Summary 删除用户
+// @Security Bearer
+// @accept application/json
+// @Produce application/json
+// @Param params body dto.Ids true "删除用户参数"
+// @Success 200 {object} common.Result "成功返回体"
+// @Router /user/delete [delete]
+func (h UserHandler) Delete(c *gin.Context) {
+	var params dto.Ids
+	if err := c.ShouldBindJSON(&params); err != nil {
+		common.ResponseFail(c, 100001, "参数格式错误")
+	} else {
+		if success := h.UserSvc.DeleteUsers(params); !success {
+			common.ResponseFail(c, 400, "删除失败")
+		} else {
+			common.ResponseOk(c, nil)
 		}
 	}
 }

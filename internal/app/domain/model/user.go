@@ -8,7 +8,7 @@ import (
 type User struct {
 	common.BaseModel
 	Username     string `gorm:"type:varchar(20);not null;unique" json:"username"`
-	Password     string `gorm:"type:text;not null" json:"password"`
+	Password     string `gorm:"type:text;not null" json:"-"`
 	Mobile       string `gorm:"type:varchar(11);not null;unique" json:"mobile"`
 	Email        string `gorm:"type:varchar(255);not null;unique" json:"email"`
 	Avatar       string `gorm:"type:varchar(255)" json:"avatar"`

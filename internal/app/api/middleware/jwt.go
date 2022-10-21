@@ -1,40 +1,40 @@
 package middleware
 
 import (
-	"gin_template/internal/app/utils"
-	"net/http"
-	"time"
+  "gin_template/internal/app/utils"
+  "net/http"
+  "time"
 
-	"github.com/gin-gonic/gin"
+  "github.com/gin-gonic/gin"
 )
 
 func CheckAuth() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var code int = 200
-		var message string
-		token := c.GetHeader("Authorization")
-		claims, err := utils.ParseToken(token)
-		if token == "" || err != nil {
-			code = 400
-			message = "用户认证失败"
-		} else if time.Now().Unix() > claims.ExpiresAt {
-			code = 401
-			message = "用户认证信息过期"
-		}
+  return func(c *gin.Context) {
+    var code int = 200
+    var message string
+    token := c.GetHeader("Authorization")
+    claims, err := utils.ParseToken(token)
+    if token == "" || err != nil {
+      code = 400
+      message = "用户认证失败"
+    } else if time.Now().Unix() > claims.ExpiresAt {
+      code = 401
+      message = "用户认证信息过期"
+    }
 
-		if code != 200 {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"code":    code,
-				"message": message,
-				"success": false,
-			})
-			c.Abort()
-			return
-		}
+    if code != 200 {
+      c.JSON(http.StatusUnauthorized, gin.H{
+        "code":    code,
+        "message": message,
+        "success": false,
+      })
+      c.Abort()
+      return
+    }
 
-		c.Set("userId", claims.Id)
-		c.Set("isAdmin", claims.IsAdmin)
-		c.Set("roleIds", claims.RoleIds)
-		c.Next()
-	}
+    c.Set("userId", claims.Id)
+    c.Set("isAdmin", claims.IsAdmin)
+    c.Set("roleIds", claims.RoleIds)
+    c.Next()
+  }
 }

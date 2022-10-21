@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/casbin/casbin/v2 v2.55.1
 	github.com/google/wire v0.5.0
+	github.com/jinzhu/copier v0.3.5
 	github.com/robfig/cron/v3 v3.0.0
 	github.com/spf13/viper v1.12.0
 	github.com/swaggo/swag v1.8.1

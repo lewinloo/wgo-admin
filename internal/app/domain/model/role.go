@@ -13,7 +13,7 @@ type Role struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`                                                  // 删除时间
 	Name      string         `gorm:"type:varchar(20);not null;unique" json:"name"`
 	Desc      string         `gorm:"type:varchar(100);" json:"desc"`
-	Status    uint           `gorm:"type:tinyint(1);default:1;comment:'1正常, 2禁用'" json:"status"`
+	Status    bool           `gorm:"type:tinyint(1);default:1;comment:'1正常, 2禁用'" json:"status"`
 	Users     []*User        `gorm:"many2many:user_roles" json:"users"`
 	Menus     []*Menu        `gorm:"many2many:role_menus;" json:"menus"` // 角色菜单多对多关系
 }

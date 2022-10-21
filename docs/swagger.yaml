@@ -10,6 +10,62 @@ definitions:
       success:
         type: boolean
     type: object
+  dto.CreateMenuParams:
+    properties:
+      breadcrumb:
+        type: boolean
+      componentFilePath:
+        type: string
+      enable:
+        type: boolean
+      hidden:
+        type: boolean
+      icon:
+        type: string
+      keepAlive:
+        type: boolean
+      name:
+        type: string
+      parentId:
+        type: integer
+      path:
+        type: string
+      redirect:
+        type: string
+      sort:
+        type: integer
+      title:
+        type: string
+    required:
+    - componentFilePath
+    - name
+    - path
+    - title
+    type: object
+  dto.CreateRoleParams:
+    properties:
+      desc:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: boolean
+    required:
+    - desc
+    - id
+    - name
+    - status
+    type: object
+  dto.Ids:
+    properties:
+      ids:
+        description: id 切片
+        items:
+          type: integer
+        type: array
+    type: object
   dto.LoginParams:
     properties:
       password:
@@ -19,6 +75,15 @@ definitions:
     required:
     - password
     - username
+    type: object
+  dto.QueryRoleListParams:
+    properties:
+      current:
+        description: 当前页
+        type: integer
+      size:
+        description: 页的大小
+        type: integer
     type: object
   dto.QueryUserListParams:
     properties:
@@ -80,6 +145,158 @@ paths:
       summary: 健康检查
       tags:
       - test
+  /menu:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建菜单参数
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateMenuParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
+      summary: 创建菜单接口
+      tags:
+      - 菜单模块
+  /menu/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 菜单id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
+      summary: 删除菜单
+      tags:
+      - 菜单模块
+  /menu/tree:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
+      summary: 查询菜单树
+      tags:
+      - 菜单模块
+  /role:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建角色参数
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateRoleParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
+      summary: 创建角色接口
+      tags:
+      - 角色模块
+  /role/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 角色id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
+      summary: 删除角色
+      tags:
+      - 角色模块
+  /role/list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 查询列表参数
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/dto.QueryRoleListParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
+      summary: 角色列表接口
+      tags:
+      - 角色模块
+  /user/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除用户参数
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Ids'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功返回体
+          schema:
+            $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
+      summary: 删除用户
+      tags:
+      - 用户模块
   /user/list:
     post:
       consumes:
@@ -98,6 +315,8 @@ paths:
           description: 成功返回体
           schema:
             $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
       summary: 用户列表
       tags:
       - 用户模块
@@ -140,6 +359,8 @@ paths:
           description: 成功返回体
           schema:
             $ref: '#/definitions/common.Result'
+      security:
+      - Bearer: []
       summary: 用户注册接口
       tags:
       - 用户模块

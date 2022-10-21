@@ -2,4 +2,4 @@ package service
 
 import "github.com/google/wire"
 
-var ProvideSet = wire.NewSet(UserSet, CasbinSet)
+var ProvideSet = wire.NewSet(UserSet, CasbinSet, MenuSet, RoleSet)
